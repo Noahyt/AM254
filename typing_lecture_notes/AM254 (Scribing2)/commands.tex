@@ -1,0 +1,278 @@
+% Common commands and definitions
+%% reduce spacing in para environment
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+                                    {1ex \@plus1ex \@minus.2ex}%
+                                    {-1em}%
+                                    {\normalfont\normalsize\bfseries}}
+\makeatother
+%%%
+
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{verbatim}
+%\usepackage{subfigure}
+\usepackage[final]{graphicx}
+\usepackage{psfrag}
+\usepackage{mathrsfs}  
+\usepackage{amsthm}
+%\usepackage{xcolor}
+\usepackage{fancybox}
+\usepackage{enumitem}
+%\usepackage{mathabx}
+\usepackage[export]{adjustbox}
+\usepackage{caption,subcaption,multicol}
+
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{property}{Property}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{condition}{Condition}
+\newtheorem{procedure}{Procedure}
+%\newtheorem{assumption}{Assumption}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{sassumption}{Simplifying Assumption}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{fact}{Fact}
+
+
+
+\newenvironment{densitemize}%    Densely printed itemized list,
+{\begin{list}               %    with flush left bullets.
+    {$\bullet$ \hfill}{
+        \setlength{\leftmargin}{\parindent}
+        \setlength{\parsep}{0.04\baselineskip}
+        \setlength{\itemsep}{0.5\parsep}
+        \setlength{\labelwidth}{\leftmargin}
+        \setlength{\labelsep}{0em}}
+    }
+{\end{list}}
+
+\providecommand{\eref}[1]{\eqref{eq:#1}}  % call \eqref from amstex
+\providecommand{\cref}[1]{Chapter~\ref{chap:#1}}
+\providecommand{\sref}[1]{Section~\ref{sec:#1}}
+\providecommand{\appref}[1]{Appendix~\ref{appendix:#1}}
+\providecommand{\fref}[1]{Figure~\ref{fig:#1}}
+\providecommand{\tref}[1]{Table~\ref{tab:#1}}
+\providecommand{\thref}[1]{Theorem~\ref{thm:#1}}
+\providecommand{\defref}[1]{Definition~\ref{def:#1}}
+\providecommand{\lemref}[1]{Lemma~\ref{lem:#1}}
+\providecommand{\remref}[1]{Remark~\ref{rem:#1}}
+\providecommand{\assumpref}[1]{Assumption~\ref{assump:#1}}
+\providecommand{\sassumpref}[1]{Simplifying Assumption~\ref{sassump:#1}}
+\providecommand{\factref}[1]{Fact~\ref{fact:#1}}
+\providecommand{\propref}[1]{Proposition~\ref{prop:#1}}
+\providecommand{\corref}[1]{Corollary~\ref{cor:#1}}
+\providecommand{\exref}[1]{Example~\ref{ex:#1}}
+
+\providecommand{\R}{\ensuremath{\mathbb{R}}}
+\providecommand{\C}{\ensuremath{\mathbb{C}}}
+\providecommand{\N}{\ensuremath{\mathbb{N}}}
+\providecommand{\Z}{\ensuremath{\mathbb{Z}}}
+\providecommand{\W}{\ensuremath{\mathbb{N}_0}}
+
+
+\providecommand{\bfP}{\mathbf{P}}
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\inprod}[1]{\langle#1\rangle}
+\providecommand{\set}[1]{\left\{#1\right\}}
+\providecommand{\seq}[1]{\left<#1\right>}
+\providecommand{\bydef}{\overset{\text{def}}{=}}
+\renewcommand{\dim}{N}
+\newcommand{\ssize}{M}
+\newcommand{\reg}{\rho}
+\newcommand{\uclass}[1]{\mathscr{U}(#1)}
+\newcommand{\auxmat}{\mat{A}}
+\newcommand{\auxvec}{{a}}
+\newcommand{\auxdim}{b}
+\newcommand{\order}{k}
+\newcommand{\opt}{\mathrm{RLS}}
+\providecommand{\sigpsi}{\sigma_{\psi}^2}
+\providecommand{\siglam}{\sigma_{\lambda}^2}
+
+\renewcommand{\vec}[1]{\ensuremath{\boldsymbol{#1}}}
+\providecommand{\mat}[1]{\ensuremath{\boldsymbol{#1}}}
+
+% Some calligraphic letters
+\providecommand{\calR}{\mathcal{R}}
+\providecommand{\calS}{\mathcal{S}}
+\providecommand{\calP}{\mathcal{P}}
+\providecommand{\calH}{\mathcal{H}}
+\providecommand{\calM}{\mathcal{M}}
+\providecommand{\calU}{\mathcal{U}}
+\providecommand{\calV}{\mathcal{V}}
+\providecommand{\calF}{\mathcal{F}}
+\providecommand{\calO}{\mathcal{O}}
+
+% Common matrices and vectors
+\providecommand{\mA}{\mat{A}} \providecommand{\mB}{\mat{B}}
+\providecommand{\mC}{\mat{C}} 
+\providecommand{\mD}{\mat{D}}
+\providecommand{\mF}{\mat{F}}
+\providecommand{\mH}{\mat{H}}
+\providecommand{\mI}{\mat{I}} \providecommand{\mJ}{\mat{J}} 
+\providecommand{\mK}{\mat{K}} \providecommand{\mL}{\mat{L}} 
+\providecommand{\mM}{\mat{M}} \providecommand{\mP}{\mat{P}} 
+\providecommand{\mQ}{\mat{Q}} \providecommand{\mR}{\mat{R}}
+\providecommand{\mS}{\mat{S}} \providecommand{\mU}{\mat{U}} 
+\providecommand{\mV}{\mat{V}}
+\providecommand{\mW}{\mat{W}}
+\providecommand{\mT}{\mat{T}}
+\providecommand{\mZ}{\mat{Z}}
+\providecommand{\mSigma}{\mat{\Sigma}}
+\providecommand{\mGm}{\mat{\Gamma}} \providecommand{\mG}{\mat{G}}
+\providecommand{\mPsi}{\mat{\Psi}}
+\providecommand{\mPsi}{\mat{\Psi}}
+\providecommand{\mX}{\mat{X}}
+\providecommand{\mE}{\mat{E}}
+\providecommand{\mXi}{\mat{\Xi}}
+\providecommand{\linmap}{\mathscr{M}}
+\providecommand{\mO}{\mat{O}}
+
+
+
+\providecommand{\va}{\vec{a}} \providecommand{\vb}{\vec{b}}
+\providecommand{\vc}{\vec{c}} \providecommand{\ve}{\vec{e}}
+\providecommand{\vg}{\vec{g}}
+\providecommand{\vh}{\vec{h}} \providecommand{\vk}{\vec{k}}
+\providecommand{\vm}{\vec{m}} \providecommand{\vn}{\vec{n}} 
+\providecommand{\vl}{\vec{l}} \providecommand{\vp}{\vec{p}}
+\providecommand{\vq}{\vec{q}} 
+\providecommand{\vr}{\vec{r}}
+\providecommand{\vs}{\vec{s}}
+\providecommand{\vt}{\vec{t}}
+\providecommand{\vu}{\vec{u}} \providecommand{\vw}{\vec{w}}
+\providecommand{\vx}{\vec{x}} \providecommand{\vy}{\vec{y}}
+\providecommand{\vz}{\vec{z}} \providecommand{\vi}{\vec{i}}
+\providecommand{\vj}{\vec{j}} \providecommand{\vzero}{\vec{0}}
+\providecommand{\vgm}{\vec{\gamma}} 
+\providecommand{\vxi}{\vec{\xi}}
+\providecommand{\vv}{\vec{v}}
+\providecommand{\vomg}{\vec{\omega}}
+\providecommand{\vell}{\vec{\ell}}
+\providecommand{\vDelta}{\vec{\Delta}}
+\providecommand{\valpha}{\vec{\alpha}}
+\providecommand{\vbeta}{\vec{\beta}}
+\providecommand{\vepsilon}{\vec{\epsilon}}
+\providecommand{\vsigma}{\vec{\sigma}}
+\providecommand{\fieldvec}{\vec{1}}
+\providecommand{\fieldscal}{{s}}
+\providecommand{\vone}{\vec{1}}
+\providecommand{\vgamma}{\vec{\gamma}}
+\providecommand{\vdelta}{\vec{\delta}}
+\newcommand{\auxC}{L}
+
+
+
+\providecommand{\w}{\omega}
+
+\providecommand{\conv}{\ast}
+\providecommand{\circonv}[1]{\circledast_{#1}}
+
+%%% additional commands
+\newcommand{\unif}[1]{\mathsf{Unif}(#1)} %% use for Haar measure/ Uniform measure
+\newcommand{\GOE}[1]{\mathsf{GOE}(#1)} 
+\newcommand{\ortho}{\mathbb{O}} %% use for orthogonal group
+\newcommand{\explain}[2]{\overset{\text{\tiny{#1}}}{#2}}
+\newcommand{\iter}[2]{{#1}^{(#2)}} %% use it to define iterates
+\newcommand{\E}{\mathbb{E}} %% for expectations
+\renewcommand{\P}{\mathbb{P}} %% for probabilities
+\newcommand{\Var}{\mathrm{Var}}
+\usepackage[sort&compress,numbers]{natbib} % for citet, citep etc
+\newcommand{\sphere}[1]{\mathcal{S}^{#1}} % use for unit sphere
+\newcommand{\ip}[2]{\left\langle {#1}, {#2} \right\rangle} %use for inner product
+\newcommand{\Op}{\mathcal{O}_\mathsf{P}} %% for stochastic order notation
+\newcommand{\gauss}[2]{\mathcal{N}\left( #1,#2 \right)} %% for Gaussian distribution
+\newcommand{\nonlin}{f}
+
+%% commands related to combinatorics
+\newcommand{\degree}{D}
+\newcommand{\fourier}[3]{\hat{\nonlin}(#1,#2; #3)}
+\newcommand{\pweight}[2]{p_{#2}(#1)}
+\newcommand{\qweight}[2]{q_{#2}({#1})}
+\newcommand{\effect}[1]{\omega_{#1}}
+\newcommand{\height}[2][]{h_{#1}{(#2)}}
+\newcommand{\valid}{\mathtt{VALID}}
+\newcommand{\relev}{\mathtt{RELEV}}
+\newcommand{\hermite}[1]{H_{#1}}
+\newcommand{\trees}[2]{\mathscr{T}_{#1}(#2)}
+\newcommand{\colorings}[2]{\mathscr{C}_{#1}(#2)}
+\newcommand{\leaves}[1]{\mathscr{L}(#1)}
+\newcommand{\nleaves}{\mathscr{L}_0}
+\renewcommand{\part}[1]{\mathscr{P}(#1)}
+\newcommand{\chrn}[1]{c_{#1}}
+\newcommand{\pw}{$\mathrm{PW}_2$}
+\newcommand{\serv}[1]{\mathsf{#1}}
+\newcommand{\nullleaves}[1]{\mathscr{L}_0(#1)}
+\newcommand{\exponent}{\eta}
+\newcommand{\noisestd}{\sigma}
+
+\DeclareMathOperator*{\argmin}{\arg\min}
+
+\makeatletter
+\newcommand{\myitem}[1]{%
+\item{#1} \protected@edef\@currentlabel{#1}%
+}
+\makeatother
+
+\makeatletter
+\newenvironment{tagsubequations}[1]
+ {%
+  \addtocounter{equation}{-1}%
+  \begin{subequations}
+  \renewcommand{\theparentequation}{#1}%
+  \def\@currentlabel{#1}%
+ }
+ {%
+  \end{subequations}\ignorespacesafterend
+ }
+\makeatother
+
+
+%%%% for algorithms
+%%% for algorithms
+
+\newenvironment{fminipage}%
+  {\begin{Sbox}\begin{minipage}}%
+  {\end{minipage}\end{Sbox}\fbox{\TheSbox}}
+
+\newenvironment{algbox}[0]{\vskip 0.2in
+\noindent 
+\begin{fminipage}{6.3in}
+}{
+\end{fminipage}
+\vskip 0.2in
+}
+
+%% code for widecheck
+\DeclareFontFamily{U}{mathx}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathx}{m}{n}{
+      <5> <6> <7> <8> <9> <10>
+      <10.95> <12> <14.4> <17.28> <20.74> <24.88>
+      mathx10
+      }{}
+\DeclareSymbolFont{mathx}{U}{mathx}{m}{n}
+\DeclareFontSubstitution{U}{mathx}{m}{n}
+\DeclareMathAccent{\widecheck}{0}{mathx}{"71}
+\DeclareMathAccent{\wideparen}{0}{mathx}{"75}
+
+\def\cs#1{\texttt{\char`\\#1}}
+%%%%%%%
+\providecommand{\ctr}[1]{\widecheck{#1}}
+\renewcommand{\tilde}{\widetilde}
+\renewcommand{\hat}{\widehat}
+\providecommand{\asymeq}{\explain{\pw}{\simeq}}
+

@@ -1,0 +1,100 @@
+\chapter{Gaussian Comparisons}
+
+
+\section{CGMT}
+
+Setup (Review from last time)
+
+Suppose we have $\{X_i\}$ generated from the following process, where $y_i \in \{-1, 1\}$, $|\xi| = 1$, $\sigma$ known.
+
+$$X_i = y_i \xi + \sigma Z_i$$
+
+It is helpful to also define a few additional constants. First, if we have $n$ samples and dimension $d$, let $\alpha = \frac{n}{d}$ and define $P(Y_i = 1) = r$. In this section, we are using a linear function as a separator of the form 
+
+
+$$\text{sign}(\frac{X_i^Tw}{\sqrt{d}} + b)$$
+
+The goal is to learn $w, b$ so that we can minimize the error of new samples generated from the same distribution. In other words, if $X_{new}, y_{new}$ are from the same process, the goal is to learn $w^*, B^*$ to minimize
+
+\begin{align*}
+    \xi_{gen} &= \P(y_{new} \ne \text{sign}\big(\frac{X_{new}^Tw^*}{\sqrt{d}} + b^*\big) \\
+    &= rQ\frac{b+1}{\tau} + (1-r)Q\frac{q-b}{\sigma \tau}
+\end{align*}
+
+Note that we defined two more (very) useful constants above, 
+
+$$\tau := \frac{||w^*||}{\sqrt{d}}$$
+
+$$q := \frac{\xi^Tw^*}{\sqrt{d}}$$
+
+and the function $Q$ is defined as 
+
+$$Q(x) := \frac{1}{\sqrt{2\pi}}\int_{x}^\infty e^{-t^2/2}dt$$
+
+To summarize from last class, for a given $\lambda, \ell()$, we want to find $w^*, b^*$ such that
+
+
+$$w^*, b^* = argmin_{w,b} \frac{1}{d}\sum_{i=1}^n \ell(\frac{x_i^Tw}{\sqrt{d}} + b; y_i) + \frac{\lambda ||w||^2}{2d}$$
+
+The trick observed previously is that we can turn this into the following "minimax" problem.
+
+
+\begin{align*}
+    &\min_{w,b} \max_{u \in \mathbb{R}^n} \frac{1}{d}\sum_{i=1}^n u_i\Big(\frac{\xi^Tw}{\sqrt{d}} + \frac{\sigma Z_i^T w}{\sqrt{d}} + by_i\Big) - \frac{1}{d}\sum_{i=1}^n \ell^*(u_i) + \frac{\lambda||w||^2}{2d} \\
+    = &\min_{w,b} \max_{u \in \mathbb{R}^n} \frac{\sigma}{d\sqrt{d}} u^TZw + \frac{1}{d}\sum_{i=1}^n u_i\Big(\frac{\xi^Tw}{\sqrt{d}} + by_i\Big)- \frac{1}{d}\sum_{i=1}^n \ell^*(u_i) + \frac{\lambda||w||^2}{2d}
+\end{align*}
+
+Note that the last three terms are a function $f(w,u)$ that is convex with respect to $w$ while concave with respect to $u$. Applying the CGMT, we can rewrite this in the form 
+
+\begin{align*}
+    \min_{w,b} \max_{u \in \mathbb{R}^n} \frac{\sigma}{d\sqrt{d}} ||u||s^Tw + \frac{\sigma}{d\sqrt{d}} ||w||u^Tg + \frac{1}{d}\sum_{i=1}^n u_i\Big(\frac{\xi^Tw}{\sqrt{d}} + by_i\Big)- \frac{1}{d}\sum_{i=1}^n \ell^*(u_i) + \frac{\lambda||w||^2}{2d}
+\end{align*}
+
+A useful "trick" is to add an additional minimization to the above problem, where we use $\tau = \frac{||w||}{\sqrt{d}}$ and $q = \frac{\xi^Tw}{\sqrt{d}}$. Adding this additional minimization simplifies the functional form significantly, to give
+
+\begin{align*}
+    \min_{\tau, q} \min_{\frac{||w||}{\sqrt{d}} = \tau, \frac{\xi^Tw}{\sqrt{d}} = q} \max_{u \in \mathbb{R}^n} \frac{\sigma||u||}{d\sqrt{d}} s^Tw + \frac{\sigma\tau}{d} u^Tg + \frac{1}{d}U^T(q + by) - \frac{1}{d}\sum_{i=1}^n \ell^*(u_i) + \frac{\lambda\tau^2}{2}
+\end{align*}
+
+This was useful because now fewer terms depend on $w$.
+
+Now, we can rewrite
+
+$$s = |s^T\xi|\xi + P_{\xi^{\perp}}(s)$$
+
+and simplify the fact that 
+
+\begin{align*}
+    s^tw/\sqrt{d} &= \big(|s^T\xi|\xi + P_{\xi^{\perp}}(s) \big)\big(q\xi + P_{\xi^{\perp}}(w)/\sqrt{d}\big) \\
+    &= qs^T\xi + P_{\xi^{\perp}}(s)^TP_{\xi^{\perp}}(w)/\sqrt{d} \\
+    &= qs^T\xi - \sqrt{\tau^2 - q^2}\sqrt{(||s||^2 - (s^T\xi)^2)/d}
+\end{align*}
+
+ Now we have not yet done anything probabilistic. However, we are looking in the case of when $d$ is large (high dimensional), therefore we can ignore the term $qs^T\xi$. This is becauseq $q$ is just a scalar, $s^T\xi$ is just a standard gaussian, so with high probability is order 1. Therefore, because we have a $\frac{1}{\sqrt{d}}$ coefficient in front of this, it goes to $0$ and we can remove this term.
+ 
+ Now, there is another term we can consider, namely 
+ 
+ 
+ $$\frac{||s||^2 - (s^T\xi)^2}{d} \longrightarrow 1$$
+ 
+ This is because by the LLN, we have that
+ 
+ $$\frac{||s||^2}{d} = \frac{\sum_{i=1}^d s_i^2}{d } = 1$$
+ 
+ we can rigorously do this with error term and stochastic domination, but this is essentially $1$. The term $(s^T\xi)/d \longrightarrow 0$ by the same logic as above.
+ 
+ 
+ Remember that we have the special case when: 
+ 
+ 
+ $$\ell(x) = (x-1)^2$$ 
+ 
+ $$\ell^*(u) = u^2/2 + u$$
+  With these simplifications, we can rewrite our entire problem as the following.
+
+ 
+ \begin{align*}
+     \min_{\tau, q} \max_{u} \frac{-\sigma||u||}{d}\sqrt{\tau^2 - q^2} + \frac{1}{d}U^T(\sigma \tau g + q + by - 1) - \frac{1}{d}||u||^2 + \frac{\lambda\tau^2}{2}
+ \end{align*}
+ 
+ This problem looks much more promising, but we still have to deal with the $u$ vector which is still high dimensional. How can we simplify $u$? The nice thing is that $u$ appears as an inner product and as a norm in the expression.

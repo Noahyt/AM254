@@ -1,0 +1,275 @@
+\documentclass{article}
+
+\usepackage{amsmath, amssymb}
+
+\title{Pset 1}
+\author{Noah Toyonaga}
+
+\begin{document}
+\maketitle
+
+I worked with Lucy Liu on this PSET. 
+
+
+\section{}
+
+
+From the problem, we assume $\phi(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}$ is the PDF of g. 
+We want to calculate $P\left(g>t\right)$
+\begin{equation}
+	\begin{split}
+		P\left(g>t\right) &= \int_t^\infty \phi\left(x\right)dx \\
+				  &=  \int_t^\infty \frac{-1}{x} \left(-x\phi\left(x\right)\right) \\
+				  &=  \frac{-1}{x}\phi\left(x\right) |_t^\infty - \int_t^\infty \frac{1}{x^2} \phi\left(x\right) \\
+				  &= \left( 0 + \frac{\phi\left(t\right)}{t}\right) - \left(\frac{-\phi\left(x\right)}{x^3}|_t^\infty - \int_t^\infty \frac{1}{x^4} \phi\left(x\right)\right) \\
+				  &= \frac{\phi\left(t\right)}{t} - \frac{\phi\left(t\right)}{t^3}
+	\end{split}
+\end{equation}
+
+The first term gives an upper bound for $P(g>t)$ while the inclusion of the first correction gives a lower bound as given in the problem.
+
+We note that this calculation is based on an expansion at $t=\infty$ and thus the series diverges as $t\rightarrow 0 $.  However these bounds hold for $t>1$.
+
+
+\section{}
+
+\subsection{}
+
+We consider the probability $P^* = P\left(X_1X_2>n^\epsilon Y_1Y_2\right)$. 
+
+Assume that \textit{both} $X_1<n^{\epsilon/2}Y_1$ and $X_2<n^{\epsilon/2}Y_2$.
+In this case we find, by multiplying the previous expressions, $X_1X_2<n^\epsilon Y_1Y_2$. 
+Thus, in order for the converse to be true (i.e. for $X_1X_2>n^\epsilon Y_1Y_2$) one of the assumptions must be false. 
+
+This implies that the probability $P^*$ must be less than the sum of the probability of either individual event $X_1>Y_1$ or $X_2>Y_2$.
+
+Finally, we have:
+
+\begin{equation}
+	\begin{split}
+		P\left(X_1X_2>n^\epsilon Y_1Y_2\right) &< P(X_1>n^{\epsilon/2}Y_1)+ P(X_2>n^{\epsilon/2}Y_2) \\
+						       &\leq n^{D_1} + n^{D_2} \\
+						       &\leq n^{D^*} 
+	\end{split}
+\end{equation}
+
+Where the last line holds for $n\rightarrow\infty$. Thus we have shown $X_1\prec Y_1$ and $X_2\prec Y_2$ imply $X_1X_2 \prec Y_1Y_2$. 
+
+
+\subsection{}
+
+Let X be a random variable such that $X\prec \sqrt{n}$. We have:
+
+\begin{equation}
+	\begin{split}
+		\sqrt{n + X} - \sqrt{n}  &= \left( \sqrt{n + X} - \sqrt{n}   \right)\frac{\sqrt{n+X} +\sqrt{n}}{\sqrt{n+X} +\sqrt{n}} \\
+					 &=\frac{X}{\sqrt{n+X} +\sqrt{n}} \\
+					 &\leq \frac{X}{\sqrt{n}}
+	\end{split}
+\end{equation}
+
+Using the definition of stochastic dominance for $X$ and rearanging we find the desired result:
+
+\begin{equation}
+\begin{split}
+	P \left( X>\sqrt{n}n^\epsilon \right) <n^{-D} &\Rightarrow P \left( \frac{X}{\sqrt{n}}>n^\epsilon \right) <n^{-D} \\
+	&\Rightarrow P \left( \sqrt{n + X} - \sqrt{n}  >n^\epsilon \right) <n^{-D} \\
+	&\Rightarrow P \sqrt{n + X} - \sqrt{n} = \mathcal{O}_\prec \left( 1 \right)  \\ 
+	&\Rightarrow P \sqrt{n + X} = \sqrt{n}  +\mathcal{O}_\prec \left( 1 \right) 
+\end{split}
+\end{equation}
+
+
+\subsection{}
+
+We note that the random variable $X_i^2$ can be written as the sum of the expectation value and a noise term: 
+$X_i^2 = E \left( X_i^2 \right) + \left( X_i^2 - 1 \right)$. The expression for noise follows because $E \left( X_i^2 \right) = 1$ by construction.
+
+We can treat the noise term as a independent random variable $Y_i\equiv X_i^2 - 1$ with zero expectation value $EY_i=0$. We will thus use Propsition 2 from the lecture notes with the particular case $a_i = 1$.
+
+\begin{equation}
+\begin{split}
+	\sum{a_iY_i} \prec \sqrt{\sum{a_i}} = \sqrt{n}
+\end{split}
+\end{equation}
+
+Plugging this into the expression for $\sqrt{\sum{X_i}}$ we have:
+
+\begin{equation}
+\begin{split}
+	\sqrt{\sum{X_i^2}} &= \sqrt{\sum{E\left(X_i^2\right) + Y_i}}	\\
+			   &=\sqrt{n + \mathcal{O}_\prec\left(\sqrt{n}\right)} \\ 
+			   &= \sqrt{n}  +\mathcal{O}_\prec \left( 1 \right) 
+\end{split}
+\end{equation}
+
+Where the last line follows from the result of the second part of this problem.
+
+\section{}
+
+\subsection{}
+
+We first consider the upper bound:
+
+\begin{equation}
+	\begin{split}
+		P \left( M_n > k\sqrt{ln(y)} \right) &= P \left( \bigcup \{x_j > k\sqrt{\ln{u}}\} \right)\\
+						     &\leq \sum{P \left( x_j > k\sqrt{\ln{u}} \right)}\quad \text{union bound} \\
+						     &\leq n \cdot \text{exp}\left(- \frac{1}{2} k^2 \log n\right) \\
+						     &= n^{-k^2 / 2 + 1} \\
+						&= n^{-\epsilon}
+	\end{split}
+\end{equation}
+
+Where the last line follows setting $k = 2+\epsilon$. This shows that $P \left( M_n > k\sqrt{ln(y)} \right)\rightarrow 0 $ as $n\rightarrow\infty$.
+
+\subsection{}
+
+We first note that $P \left( M_n > \sqrt{(2-\epsilon)\cdot ln(n)} \right) = 1 - P \left( M_n \leq\sqrt{(2-\epsilon)\cdot ln(n)}   \right)$ so it suffices to show that the second expression tends to 0 as $x\rightarrow\infty$.
+
+For the maximum element $M_n$ to be less than some value $\xi$ it must be the case that \textit{all} elements in the sequence to be less than $\xi$. Therefore, the probability of $M_n<\xi$ should be equal to the product of probability of $g_i<\xi$ for all elements $g_i$. I.e. 
+
+\begin{equation}
+	\begin{split}
+		P \left( M_n \leq \sqrt{(2-\epsilon)ln(n)} \right) &=\prod_i P \left( g_i\leq \sqrt{(2-\epsilon)ln(n)} \right)	 	 \\ 
+								   &=\prod_i 1 - P \left( g_i>\sqrt{(2-\epsilon)ln(n)} \right)	\\
+								   &=\left(\underbrace{1- P\left(  g_i > \sqrt{(2-\epsilon)ln(n)} \right)}_{\star}\right) ^ n
+\end{split}
+\end{equation}
+
+We now note that the last expression can be rewritten as $e^{n\ln{\star}}$. 
+
+This expression can be simplified by observing that $\ln{1+x}\leq x$ for all $x>0$, $\ln{\left( 1 - P \left( g_i>t \right) \right)}<-P \left( g_i >t \right)$. 
+
+We now have: 
+
+
+\begin{equation}
+	\begin{split}
+		\left(\underbrace{1- P\left(  g_i > \sqrt{(2-\epsilon)ln(n)} \right)}_{\star}\right) ^ n  &=
+		\text{exp} \left( n \cdot \ln \left( 1 - P \left( g_i >t \right) \right) \right) \\
+													  &\leq \text{exp} \left( -n \cdot P\left( g_i >t \right) \right) \\
+													  &\leq 
+		\text{exp} \left( -n \cdot \left( \frac{1}{t} - \frac{1}{t^3} \right) \phi(t) \right)
+	\end{split}
+\end{equation}
+
+Where in the last line we plugged in our result from problem (1). In our case $t= \sqrt{(2-\epsilon)ln(n)}$ . Thus we have $\phi(t) = e^{t^2/2} = n^{(-1 + \epsilon/2)}$. Finally we have:
+
+\begin{equation}
+	\begin{split}
+		P \left( M_n \leq \sqrt{(2-\epsilon)ln(n)} \right) &\leq \text{exp} \left( -n^{\epsilon/2} \right) \\
+								   & =0 \quad \text{as } n\rightarrow\infty 
+\end{split}
+\end{equation}
+
+
+
+
+
+
+\section{}
+
+In this problem I index the different observations $a$ by a raised variable, i.e. the $i$th observation is $a^{(i)}$, and the elements of vectors/matrices using subscripts $a_{j}$.
+
+\subsection{}
+
+We consider the case $\xi = e^{(0)} = \{1,0,0, \dots\}$. 
+
+We begin by computing $y^{(i)} = \langle\xi, a^{(i)}\rangle = a^{(i)}_0$
+
+We can plug this into the expression for $\Psi$ and take the expectation value.
+
+\begin{equation}
+\begin{split}
+	E\left(\Psi\right)  = E\left[\frac{1}{n}\sum_{i}\underbrace{\left(a^{(i)}_0\right)^2a^{(i)}_ja^{(i)}_k}_{\star}\right]
+\end{split}
+\end{equation}
+
+The expectation value of $\star$ is given by:
+
+\begin{equation}
+	E\left[\left(a^{(i)}_0\right)^2a^{(i)}_ja^{(i)}_k \right] = 
+	\begin{cases}
+		3 & j=k=0 \\
+		1 & j=k\neq 0 \\
+		0 & j\neq k
+	\end{cases}
+\end{equation}`
+
+Thus we have 
+
+\begin{equation}
+\begin{split}
+	E\left(\Psi\right)  = \begin{pmatrix}
+		3& 0& \cdots  &\\
+		0& 1& 0& \cdots \\
+		\vdots &  & \ddots & \\
+		\dots &&&1 
+	\end{pmatrix}
+\end{split}
+\end{equation}
+
+For convenience in the next problem, we note that this can be written as: \[2e^{(0)}{e^{(0)}}^\intercal + \boldsymbol{I}\]
+
+\subsection{}
+
+We now consider the case of arbitrary $\xi$. 
+We would like to use the rotation trick to simplify our computation, so we assume we have a matrix (constructable from hausholder method) that rotates $\xi$ into $\vec{e}^{(0)}$. 
+Dropping the vector notation for convenience, we have: $\xi = \lVert \xi\rVert \boldsymbol{H}^T e^{(0)}$
+We also note that $\boldsymbol{H}$ in general rotates $a^{(i)}$ to a new vector $\tilde{a}^{(i)}$. 
+
+As before we first compute $y^{(i)}$:
+
+\begin{equation}
+	\begin{split}
+		y^{(i)} &= \langle \xi , a^{(i)}\rangle ^2 \\
+			&= \langle \lVert\xi\rVert\boldsymbol{H}^\intercal e^{(i)} , \boldsymbol{H}^\intercal \tilde{a}^{(i)}\rangle^2 \\
+			&= \lVert\xi\rVert\langle e^{(i)}, \tilde{a}^{(i)}\rangle ^2\\ 
+			&=  \lVert\xi\rVert^2 \left(\tilde{a}^{(i)}_0\right)^2
+	\end{split}
+\end{equation}
+
+We now turn to $\Phi$:
+
+
+\begin{equation}
+\begin{split}
+	E\left(\Psi\right)  &= E\left[\frac{1}{n}\sum_{i}\lVert\xi\rVert^2\left(a^{(i)}_0\right)^2 
+	\boldsymbol{H}^\intercal \tilde{a}^{(i)}_j \left(\boldsymbol{H}^\intercal \tilde{a}^{(i)}\right)^\intercal_k\right] \\  
+			    &= E\left[\frac{1}{n}\sum_{i}\lVert\xi\rVert^2\boldsymbol{H}^\intercal \underbrace{ \left(\tilde{a}^{(i)}_0\right)^2 \tilde{a}^{(i)}\tilde{a}^{(i)}}_{\star}\boldsymbol{H}^\intercal \right]
+\end{split}
+\end{equation}
+
+Since $a$ is a random variables, $tilde{a}$ is equivalent in distribution by rotational invariance. Thus we can treat $\tilde{a}$ as $a$ and note that we can replace $\star$ with the expectation values found in part 1.
+Thus we find: 
+
+\begin{equation}
+	\begin{split}
+		E \left( \Phi  \right) &= \lVert\xi\rVert ^2 \boldsymbol{H}^\intercal \left(2e^{(0)}{e^{(0)}}^\intercal + \boldsymbol{I}   \right)\boldsymbol{H} \\
+				       &= 2\xi\xi^\intercal + \lVert\xi\rVert^2\boldsymbol{I}
+	\end{split}
+\end{equation}
+
+Where, in the second line we have again used the definition of our matrix $\boldsymbol{H}$ to rotate $e^{(0)}$ back. 
+\begin{equation}
+	E \left( \Phi \right) = \begin{pmatrix}
+		3\xi_0^2 & \xi_0\xi_1 & \cdots  & \xi_0\xi_n \\
+		\xi_1\xi_0 & 3\xi_1^2 & \xi_1\xi_2 & \cdots \\
+		\vdots &  & \ddots & \\
+		\xi_n\xi_1& \dots && 3\xi_n^2 
+	\end{pmatrix}
+\end{equation}
+
+\subsection{}
+
+WLOG we can consider the case $\xi  = \lVert \xi\rVert e^{(0)}$.
+In this case we see that 
+In this case the matrix $E\Phi$ will be close to diagonal with the largest eigenvalue in the upper left, $i=j=0$.
+Assuming there is some correlation among the observations $a$, then the 
+
+
+
+\end{document}
+
+

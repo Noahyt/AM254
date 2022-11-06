@@ -1,0 +1,294 @@
+\documentclass{article}
+
+\usepackage{amsmath, amssymb}
+\DeclareMathOperator{\Tr}{Tr}
+
+\title{Pset 2}
+\author{Noah Toyonaga}
+
+\begin{document}
+\maketitle
+
+\section{Problem 1}%
+\label{sec:Problem 1}
+
+See attached \textit{Jupyter} notebook printout.
+
+\section{Problem 2}%
+\label{sec:Problem 2}
+\subsection{}
+
+\begin{equation}
+\begin{split}
+	\mathbb{E}\Psi &= \mathbb{E} \frac{1}{m} \sum^{m}_{i=1} 	\sigma_i \cdot a_ia_i^T \\
+		       &= \frac{1}{m} \sum^{m}_{i=1} 	\mathbb{E}\sigma_i \cdot \mathbb{E} a_ia_i^T \\
+		       &= \frac{1}{m} \sum^{m}_{i=1} 	\mathbb{E}\sigma_i \cdot I \\
+		       &= \mathbb{E}\sigma_i I 
+\end{split}
+\end{equation}
+
+We consider the spectral norm of the variation of $\Psi$ about its mean $\mathbb{E}\Psi$:
+
+\begin{equation}
+	\mathbb{P}\left( \left| v^\top \left( \Psi-\mathbb{E}\Psi \right) v \right| \leq t\right) = 
+	1 - 	\mathbb{P}\left( \left| v^\top \left( \Psi-\mathbb{E}\Psi \right) v \right| > t\right) 
+\end{equation}
+
+We expand the second term on the LHS as  
+
+\begin{equation}\label{eq:tail_1}
+	\begin{split}
+		\mathbb{P}\left( \left| v^\top \left( \Psi-\mathbb{E}\Psi \right) v \right| > t\right) &=
+		\mathbb{P}\left( \left| v^\top \Psi v  - v^\top \mathbb{E}\Psi v \right|> t\right) \\
+												       &= \underbrace{\mathbb{P} \left(\left| v^\top \left(\frac{1}{m} \sum^{m}_{i=1} 	\sigma_i \cdot a_ia_i^T \right) v  - v^\top \mathbb{E}\Psi v \right|\right)}_{\star}
+	\end{split}
+\end{equation}
+
+
+The first term can be written by using rotational invariance:
+
+\begin{equation}
+	v^\top \left(\frac{1}{m} \sum^{m}_{i=1} 	\sigma_i \cdot a_ia_i^T \right) v = 
+	\frac{\sum_i\sigma_i ||v||^2}{m}
+\end{equation}
+
+Meanwhile the second term simplifies since $v^TIv = ||v||^2$. 
+
+From construction $||v|| = 1$ so we have:
+
+\begin{equation}
+\star = \mathbb{P} \left(\left|\frac{1}{m}\sum_i \sigma_i - \mathbb{E}\sigma \right| \right)
+\end{equation}
+
+The argument of the absolute value is a sum of independent sub-gaussian random variables with zero mean, so we can apply Bernstein's Inequality. To do so we first show that there is a $k$ that satisfies $\mathbb{E} e^{X_i^2/k^2}\leq 2$. 
+
+\begin{equation}
+\begin{split}
+	e^{\frac{X_i}{k}}\leq 2 \Rightarrow k \geq \frac{X_i}{\log{2}} &= \frac{\sigma_i - \mathbb{E}\sigma_i}{\log 2}
+\end{split}
+\end{equation}
+
+The term on the right is bounded by $B$ by construction of $\sigma$ so we have for k:
+
+\begin{equation}
+k \geq \frac{B}{\log 2}\\
+\end{equation}
+
+Finally, we write down the Bernstein Inequality:
+
+\begin{equation}
+	\mathbb{P}\left( \left| v^\top \left( \Psi-\mathbb{E}\Psi \right) v \right| \leq t\right) = 
+	1 - 2\exp{\left( -c \cdot \min{\left\{ \frac{t}{k},\frac{t^2}{k^2}   \right\}} m \right)}
+\end{equation}
+
+\subsection{}
+
+\textit{Notation}: let $|A|_v\equiv \max_{v}\left| v^TAv \right|$.
+
+
+
+Let $v\in\mathbb{S}^{n-1}$ and $v_0\in V_\epsilon$ (i.e. $v_0$ is in the epsilon net).
+
+Let $v$ be the vector that gives the spectral norm of A. Then from the definition of the $\epsilon$-net vector $v_0$ and spectral norm we have: 
+
+\begin{equation}
+	\left|A (v-v_0) \right|\leq \epsilon \left| A\right|
+\end{equation}
+
+We now derive the desired result using triangle inequality:
+
+
+\begin{equation}
+\begin{split}
+	\left| \left| A \right| \right|	_{v} &\leq \left| \left| A \right| \right|_{v_0} + \left| \left| A \right| \right|_{v-v_0} \\
+	&\leq \left| \left| A \right| \right|_{v_0} + |vA\left(v-v_0  \right)| + |(v-v_0)^TAv| \\
+	&= \left| \left| A \right| \right|_{v_0} + \epsilon||A||_v + \epsilon||A||_v \\
+\end{split}
+\end{equation}
+
+Rearanging, we have:
+
+\begin{equation}	
+	\left( 1-2\epsilon \right)\left| \left| A \right| \right|_v\leq \left| \left| A \right| \right|_{v_0} 
+	\Rightarrow  
+	\left| \left| A \right| \right|_v\leq \frac{1}{\left( 1-2\epsilon \right)}  \left| \left| A \right| \right|_{v_0} 
+\end{equation}
+
+\subsection{}
+
+From \textbf{Lemma 2.} we have that $\left| V \right| \leq  \left( 2/(1/4) + 1 \right)^n = 9^n$. 
+
+The problem asks for the probability that the operator norm given a maximal $v\in V_\epsilon$ is greater than $t/2$. 
+This is bounded from above by the probability that the quadratic form given \textit{any} $v$ is grater than $t/2$. I.e.
+
+\begin{equation}
+	\mathbb{P} \left( \max_{v\in V_\epsilon} \left| v^T A v \right| \geq \frac{t}{2}\right) 
+	\leq \sum_{v\in V\epsilon} \mathbb{P} \left( \left| v^T A v \right| \geq \frac{t}{2}\right) = 2 * 9^n * \exp \left( -c \cdot \min \left\{ \frac{t}{k}, \frac{t^2}{k^2}   \right\} \cdot m \right)
+\end{equation}
+
+\section{Problem 3}%
+\label{sec:Problem 3}
+
+\textit{Notation:} In this problem we write $\Lambda \equiv \Lambda \left( \theta \right)$.
+We also suppress the dependence of $F$ and $F_n$ on $\theta$ for concision.
+\subsection{}
+
+We first write down the expansion of $F_n$ about $\lambda=\Lambda$:
+
+\begin{equation}
+\begin{split}
+	F_n(\lambda) &= F_n \left( \lambda\right)\bigg\rvert_{\Lambda} + 
+\frac{\partial}{\partial \lambda} F_n \left( \lambda \right) \bigg\rvert_{\Lambda}\left( \lambda - \Lambda \right) \\
+		     &=F_n \left( \Lambda \right) + \partial_{\lambda}F_n \left(\Lambda \right) \left( \lambda-\Lambda \right)
+\end{split}
+\end{equation}
+
+We know that in the limit $n\rightarrow\infty$, $F_n \left( \lambda_1 \right)\rightarrow F (\Lambda)$, so we have:
+
+\begin{equation}
+\begin{split}
+	F \left( \Lambda \right) &\approx F_n \left( \lambda_1 \right) \\ 
+				 &\approx F_n \left( \Lambda \right) + \partial_{\lambda}F_n \left(\Lambda \right) \left( \lambda_1-\Lambda \right)
+\end{split}
+\end{equation}
+
+Rearranging we find: 
+
+\begin{equation}\label{eq:scaled_deviation}
+	\sqrt{n}\left( \lambda-\Lambda \right) = \sqrt{n} \left(\frac{F \left( \Lambda \right) -  F_n \left( \Lambda \right)}{\partial_{\lambda}F_n \left(\Lambda \right) }\right)
+\end{equation}
+
+Multiplying by $\sqrt{n}$ we have the desired expression for $\sqrt{n}\left( \lambda-\Lambda \right)$.
+
+\subsection{}
+
+We plug in the given expressions for $F_n$ and $F$:
+
+\begin{equation}\label{eq:part_2_start}
+	Y \equiv \sqrt{n} \left(F \left( \lambda \right) - F_n \left( \lambda \right) \right)
+	= \sqrt{n}\left(-\int \frac{\mu_{SC}}{\lambda-x} + W_{11} +
+	\underbrace{g^\top \left( \lambda I_{n-1} - W_{\setminus 1} \right)^{-1}g  }_{\star}\right) 
+\end{equation}
+
+We consider the quantity $\star$:
+
+
+\begin{equation}
+\begin{split}
+	g^\top \left( \lambda I_{n-1} - W_{\setminus 1} \right)^{-1}g 
+	&= g^\top \left( \lambda I_{n-1} - U^\top\Gamma_{\setminus 1}U \right)^{-1}g \quad \text{ $\Gamma$ is diagonal of eigenvalues of $W_{\setminus 1}$ }\\ 
+	&= \frac{1}{n} \sum^{n-1}_{i=1} \frac{z_i^2}{\lambda-\gamma_i} \quad \text{ by rotational invariance of $Ug$ } \\
+	&\approx 	\frac{1}{n} \sum^{n}_{i=1} \frac{z_i^2}{\lambda-\gamma_i} \quad \text{ lim $n\rightarrow\infty$} \\
+	&\approx \frac{\Tr\left( \left( \lambda I_n - W \right)^{-1} \right)}{n}
+\end{split}
+\end{equation}
+
+Plugging this into \ref{eq:part_2_start} we see that (using the provided fact):
+
+\begin{equation}
+	Y = \sqrt{n} \left( \mathcal{O}\left( \frac{1}{n}  \right) + W_{11}\right)
+\end{equation}
+
+We see that as $n\rightarrow\infty$the first term goes to 0 and the second term has mean 0 by construction.
+
+To compute the variance we need to consider the deviation of $z_i^2$ about its mean. We have: 
+
+\begin{equation}
+\begin{split}
+	\text{Var} \left( Y \right) 
+	&= \text{Var} \sqrt{n}\left( W_{11} + \underbrace{\frac{1}{n}\sum^{n}_{i=1}\frac{z_i^2 - 1}{\lambda-\gamma_i}  }_{\text{error}} \right) \\
+	&= n \left( \text{Var} W_{11} + \frac{1}{n} \text{Var} sum^{n}_{i=1}\frac{z_i^2 - 1}{\lambda-\gamma_i}  \right)
+\end{split}
+\end{equation}
+
+
+We evaluate the variance in the second term, noting that by constuction of $W$, $z_i$ and $\gamma_i$ are independent distributions, so we can take the expectation value of the former conditioned on the latter.  
+
+
+\begin{equation}
+\begin{split}
+	\text{Var} \sum^{n}_{i=1}\frac{z_i^2 - 1}{\lambda-\gamma_i} 
+	&= \mathbb{E} \left(  \sum^{n}_{i=1}\frac{z_i^2 - 1}{\lambda-\gamma_i}  \right)^2 \\
+	&=  \left(  \sum^{n}_{i=1}\frac{\mathbb{E}\left(z_i^2 - 1\right)^2}{ \left( \lambda-\gamma_i \right)^2}  \right) \quad \text{ Only diagonal terms have nonzero expectation }\\
+	&= \left(  \sum^{n}_{i=1}\frac{\mathbb{E}\left(z_i^ -2z_i^2 +1\right)}{ \left( \lambda-\gamma_i \right)^2}  \right) \\
+	&= \left(  \sum^{n}_{i=1}\frac{3 - 2 + 1}{\lambda-\gamma_i}  \right) \\
+	&= 2\left(  \int \frac{\mu_{SC}}{\left( \lambda-x \right)^2} \right) \\
+\end{split}
+\end{equation}
+
+Where in the last line we have taken the limit $n\rightarrow\infty$ and used the identity between the discrete distribution $\mu^{n}$ and continuous distribution $\mu_{SC}$ which we showed for arbitrary test functions in class.
+
+Putting the preceding results together we see that:
+
+\begin{equation}
+	Y\sim \mathcal{N} \left( 0, 2 +2\int \frac{\mu_{SC}}{\left( \lambda-x \right)^2}    \right)
+\end{equation}
+
+\subsection{}%
+
+
+We note that we can rewrite the desired integral in terms of a derivative of the Stieltjes transform we saw in class so:
+
+\begin{equation}
+\begin{split}
+ \int \frac{\mu_{SC}\left( dx \right)}{\left( \lambda -x \right)^2} &= - \frac{\partial}{\partial \lambda} \int \frac{\mu_{SC}\left( dx \right)}{\left( \lambda -x \right)} \\
+								    &=  - \frac{\partial}{\partial \lambda} \left( \frac{\lambda - \sqrt{\lambda^2-4}}{2} \right) \\
+								    &= - \frac{1}{2}  + \frac{\lambda}{\sqrt{\lambda^2-4}} 
+\end{split}
+\end{equation}
+
+Finally, we can write down an expression for $s^2$:
+
+\begin{equation}
+	s^2 \left( \theta \right) =2\left(\frac{1}{2} + \frac{\Lambda}{\sqrt{\Lambda^2 - 4}}\right)  
+\end{equation}
+
+\subsection{}
+
+Since the $z_i$ are normally distributed, they will average to 1 and we can simplify the expression : 
+\begin{equation}
+\begin{split}
+	g^\top \left( \lambda I_{n-1} - W_{\setminus 1} \right)^{-1}g  &\stackrel{d}{=} \frac{1}{n} \sum^{n-1}_{i=1} \frac{z_i^2}{\lambda - \gamma_i}  \\ 
+								       &\approx   \frac{1}{n} \sum^{n-1}_{i=1} \frac{1}{\lambda - \gamma_i}  \\ 
+								       &\approx -m^{\left( n \right)}\left( \lambda \right) \\
+								       & \approx - m{\left( \lambda \right)}
+\end{split}
+\end{equation}
+
+Where the last line follows when $n\rightarrow\infty$. We can use this to evaluate $\partial_\lambda F_n$:
+
+\begin{equation}
+\begin{split}
+	\partial_\lambda F_n &= \partial_\lambda \left( \lambda - \theta - W_{\setminus 1} + m{\left( \lambda \right)} \right) \\ 
+			     &= 1  + m'{\left( \lambda \right)} \\
+			     &= 1  + \left( -\frac{1}{2} + \frac{\lambda}{\sqrt{\lambda^2 - 4}}   \right)\\
+			     &=\frac{1}{2} + \frac{\lambda}{\sqrt{\lambda^2 - 4}}  
+\end{split}
+\end{equation}
+
+Evaluated as $n\rightarrow\infty$ we have: 
+\begin{equation}
+	\partial_\lambda F_n  = \frac{1}{2} + \frac{\Lambda(\theta)}{\sqrt{\Lambda(\theta)^2 - 4}}  \equiv \kappa(\theta)
+\end{equation}
+
+\subsection{}
+
+We can plug the preceding results into \ref{eq:scaled_deviation} to find: 
+
+\begin{equation}
+	\sqrt{n}\left( \lambda - \Lambda \right) = \frac{X}{\kappa \left( \theta \right)}
+\end{equation}
+
+Where $X \sim \mathcal{N}\left( 0, s^2 \right)$. We can rescale $X$ by $\kappa$ so we have: 
+
+\begin{equation}\label{eq:final_expression}
+	\sqrt{n}\left( \lambda - \Lambda \right) 
+= \mathcal{N}\left(0, s^2/\kappa^2\right)
+= \mathcal{N}\left(0, 2 \left( \frac{1}{2} + \frac{\lambda}{\sqrt{\lambda^2 - 4}}\right)^{-1}  \right)
+\end{equation}
+
+
+\subsection{}
+
+We validate \ref{eq:final_expression} using a numerical experiment. See attached \textit{Jupyter} notebook.
+\end{document}

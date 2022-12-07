@@ -1,0 +1,90 @@
+\documentclass{article}
+
+\usepackage{ amsmath, amssymb}
+\usepackage{esvect}
+
+
+
+
+\title{Final Presentation}
+\author{Noah Toyonaga}
+\date{12/5/22}
+
+\begin{document}
+\maketitle
+
+\section{Random Spring Networks}
+
+\begin{equation}
+	\text{Harmonic Spring: } \quad F = -k u \quad \left( u\equiv x - x_0\right)
+\end{equation}
+
+
+\begin{equation}
+	\text{Newton's Equation} \quad F = m a = m u_{tt} 
+\end{equation}
+
+\begin{equation}
+	\vec{u}_{tt} = \boldsymbol{A}\vec{u}
+\end{equation}
+
+\begin{equation}
+	\boldsymbol{A}_0 = 
+\begin{pmatrix}
+	-2 & 1 & 0 & &\cdots & 0 \\
+	1 & -2 & 1 & 0 & \cdots & 0 \\
+	0 & 1 & -2 & 1 & \cdots & 0  \\
+	\vdots & &\ddots& \ddots  & \ddots & 0\\
+	0& & \cdots && -2 & 1\\
+	0 & & \cdots & &1& -2
+\end{pmatrix}
+\end{equation}
+
+
+\section{Poisson Equation}
+
+\begin{equation}
+	\boldsymbol{A}_0 = 
+\begin{pmatrix}
+	-2 & 1 & 0 & &\cdots & 0 \\
+	1 & -2 & 1 & 0 & \cdots & 0 \\
+	0 & 1 & -2 & 1 & \cdots & 0  \\
+	\vdots & &\ddots& \ddots  & \ddots & 0\\
+	0& & \cdots && -2 & 1\\
+	0 & & \cdots & &1& -2
+\end{pmatrix} \equiv \nabla_d
+\end{equation}
+
+
+\begin{equation}
+	\left( -\nabla + V(\vec{x})\right) \psi = E\psi
+\end{equation}
+
+\begin{equation}
+	A = \underbrace{A_0}_{\nabla} + \underbrace{\sigma\xi \xi^\intercal}_{V(x)}
+\end{equation}
+
+\section{localization}%
+\label{sec:localization}
+
+We define a localization parameter, following Molinari.
+
+\begin{equation}
+	\beta \equiv \exp{\left( \langle H \rangle - H_{GOE} \right)}
+\end{equation}
+\begin{equation}
+	H \left( u \right)\equiv \sum u_i ^2 \log{\left( u_i^2 \right)}
+\end{equation}
+
+\section{sparse}%
+\label{sec:sparse}
+
+\begin{equation}
+	\boldsymbol{A} = \theta \nabla + X
+\end{equation}
+
+$X$ represents a contribution from random bonds. 
+
+It is symmetric, gaussian random entries, and has 0 on the diagonal.
+
+\end{document}

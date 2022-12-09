@@ -1,0 +1,70 @@
+\documentclass{article}
+
+\usepackage{amsmath, amssymb, bm}
+
+\title{Pset 3}
+\author{Noah Toyonaga}
+
+\begin{document}
+\maketitle
+
+\section{Problem 1}%
+\label{sec:Problem 1}
+
+\subsection{Explicit form of $w_\star$}%
+
+Given a dataset $\{x_i, y_i\}$ we can construct the optimal solution $w_\star$ to $\Phi_H$.
+
+For convenience, we note that $\Phi_H$ can be rewritten as a minimization problem over a matrix $X$ and vectory $y$ constructed from the dataset as: 
+
+\begin{equation}
+	\bm{X}_{i} \equiv x_i \quad \bm{y}_i \equiv y_i
+\end{equation}
+
+Then we have (using einstein convention for summing over repeated indices):
+
+\begin{equation}\label{eq:phi_hard_expanded}
+\begin{split}
+	\Phi &= \frac{1}{2n} \left( \left| \left| \bm{y} - \bm{X}w \right| \right|^2 + \lambda \left| \left| w \right| \right|^2 \right)\\
+	     &= \frac{1}{2n}\left(\left(y_i-x_{ik}w_k\right)\left( y_i - x_{ij}w_j \right) + \lambda w_mw_m\right) \\
+	     &=  \frac{1}{2n}\left(y_iy_i - y_ix_{ij}w_j - y_ix_{ik}w_k + x_{ij}x_{ik}w_kw_j+ \lambda w_mw_m\right)  \\
+	     &=  \frac{1}{2n}\left(y_iy_i - 2y_ix_{ik}w_k + x_{ij}x_{ik}w_kw_j+ \lambda w_mw_m\right) 
+\end{split}
+\end{equation}
+
+Note that in the last line we have relabeled a dummy index to combine the cross terms from the previous line.
+
+$w_\star$ should satisfy $ \frac{\partial \Phi}{\partial {w_\star}_i} = 0$. We can evaluate this derivative explicitly:
+
+\begin{equation}\label{eq:phi_hard_derivative}
+\begin{split}
+	\frac{\partial \Phi}{\partial w_l} & = \frac{\partial}{\partial w_l}\frac{1}{2n}\left(y_iy_i - 2y_ix_{ik}w_k + x_{ij}x_{ik}w_kw_j+ \lambda w_mw_m\right) \\
+					   &= \frac{1}{2n} \left( 0 - 2y_ix_{ik}\partial_lw_k + x_{ik}x_{ij}\partial_l \left( w_kw_j \right) + \lambda \partial_l \left( w_mw_m \right) \right) \\
+					   &=  \frac{1}{2n} \left(  - 2y_ix_{ik}\delta_{kl} + x_{ik}x_{ij} \left( \delta_{lk}w_j + \delta_{lj}w_k \right)+ \lambda 2 \delta_{ml}w_l \right) \\
+					   &=  \frac{1}{n} \left( -y_ix_{il} + \left(x_{il}x_{ij} + \lambda  \delta_{jl}\right) w_j \right) \\
+\end{split}
+\end{equation}
+
+(Again, in the last name we have relabeled dummy indices for convenience to combine terms.) Setting \ref{eq:phi_hard_derivative} equal to 0 we can solve:
+
+
+\begin{equation}
+\begin{split}
+	0 & =  \frac{1}{n} \left( -y_ix_{il} + \left(x_{il}x_{ij} + \lambda  \delta_{jl}\right) w_j \right) \\
+	y_ix_{il} &= \left(x_{il}x_{ij} + \lambda  \delta_{jl}\right) w_j \\
+	\left(x_{il}x_{ij} + \lambda  \delta_{jl}\right)^{-1} y_ix_{il} &= w_j
+\end{split}
+\end{equation}
+
+In standard matrix notation the final line is:
+
+\begin{equation}\label{eq:analytic_w_star}
+	w = \left(\bm{X}^\top \bm{X} + \lambda \bm{I} \right)^{-1}\bm{X}^\top y
+\end{equation}
+
+
+
+
+
+
+\end{document}

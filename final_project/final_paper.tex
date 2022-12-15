@@ -2,7 +2,20 @@
 
 \usepackage{ amsmath, amssymb}
 \usepackage{esvect}
+\usepackage{bm}
 
+% Tables.
+\usepackage{multirow}
+\usepackage{booktabs}
+
+% Figures.
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Citation/Bibliograph.
+\usepackage{natbib} % Include `\cite` command.
 
 
 
@@ -17,38 +30,103 @@
 \section{Introduction}
 Deriving the normal modes of a chain of masses connected by harmonic springs is one of the 
 classic problems encountered in an introductory physics curriculum.
-In one fell swoop this exercise both demonstrates the elegance of 
+This exercise demonstrates the elegance of 
 vector/matrix notations for coupled differential equations 
 and simultanously motivates the connection between discrete and continuum systems. 
 This project proceeds from this classic (and classical) system
 and examines what happens when we augment or replace the nearest neighbor interactions with random couplings. 
-In particular we will explore two regimes:
+The experiments which we will explore in this work are chosen to explore two regimes of geometric disorder. 
+First, in which disorder is local, but strong (compared to the mean field/nearest neighbor model), and second in which disorder is long range but perturbative. 
 
 \begin{enumerate}
 	\item \textbf{Intermediate range}: We replace nearest neighbor interactions with random strength couplings to
 		neighbors within a given bandwidth. 
-		This corresponds to the case of connectivity with the structure of band random matrices. 
-	\item \textbf{Long range}: We preserve the NN interaction, but perturb the system with arbitrarily long range interactions.
+		This corresponds to a graph laplacian with the approximate structure of band random matrices. 
+	\item \textbf{Long range}: We assume and underlying nearest neighbor interaction but perturb the system with arbitrarily long range interactions.
 		In particular, we compare the behaviour of the system in the presence of long range coupling to the behavior in the finite bandwidth regime. 
 \end{enumerate}
 
+We note that the above experiments do not represent an exhaustive typology of sources of disorder in a 1D lattice model. 
+Freeman Dysons's first work on random matrix theory, for example,
+is an investigation into the spectra
+of 1D lattices in which either the stiffness of the springs or mass of nodes are varied (\cite{Dyson1953-oa,Forrester2021-xr}). 
+
+\subsection{The ordered chain and its spectrum.}
+
+To eluciadate the random connection models, we first review the spring-lattice model and provide a construction 
+for the stiffness matrix K.
+Consider the 1D chain shown in fig. \ref{fig:1D_chain} which consists of $N$ masses (labeled $m_i$) and connecting springs (where a spring between $m_i$ and $m_j$ has a stiffness $k_{i,j}$).
+The force experienced by the mass $m_i$ in the deformed configuration is given by the sum of forces due to adjacent springs as given by eq \ref{eq:general_lattice_force}.
+
+\begin{equation}\label{eq:general_lattice_force}
+\begin{split}
+	f_i = k_{i,i+1}&\left[ \left(x_{i+1} + u_{i+1} \right)- \left(x_{i} + u_{i} \right)  - l_i\right] \\
+		 &+ k_{i-1,i}\left[ \left(x_{i-1} + u_{i-1} \right)- \left(x_{i} + u_{i} \right)  - l_{i-1}\right]
+\end{split}
+\end{equation}
+
+
+If we assume that the system is initally in an unstressed state 
+(i.e. for every $i$, $x_{i+1} - x_{i} = l_i$) then \ref{eq:general_lattice_force} simplifies to:
+
+\begin{equation}\label{eq:lattice_force}
+	f_i = k_{i,i+1}\left[u_{i+1} - u_i\right] + k_{i-1, i}\left[u_{i-1} - u_{i}\right]
+\end{equation}
+
+We finally note that the $N$ system of equations corresponding to all the masses in the system can be concisely expressed by a linear equation \ref{eq:lattice_matrix}.
+Here, the $i$-th element of $\bm{F}$ and $\bm{u}$ are the force on and displacement of the mass $m_i$ respectively.
+The stiffness matrix $\bm{K}_0$ is given explicitly by \ref{eq:k_lattice}.
+
+\begin{equation}\label{eq:lattice_matrix}
+	\bm{F} = \bm{K}_0\bm{u} 
+\end{equation}
+
+\begin{equation}\label{eq:k_lattice}
+		\bm{K}_0 = 
+\begin{pmatrix}
+	-(k_{0,1} + k_{1,2}) & k_{1,2} & 0 & &\cdots & 0 \\
+	k_{1,2} & -(k_{1,2} + k_{2,3}) & k_{2,3} & 0 & \cdots & 0 \\
+	\vdots & &\ddots& \ddots  & \ddots & 0\\
+	0& & \cdots && -(k_{N-2, N-1} + k_{N-1, N}) & k_{N-1, N}\\
+	0 & & \cdots & & k_{N-1, N}& -(k_{N-1, N} + k_{N, N+1})
+\end{pmatrix} 
+\end{equation}
+
+Anticipating the addition of other non-adjacent bonds, we define a more general stiffness matrix $\bm{K}$ in \ref{eq:K_general}. 
+We note that $\bm{K}$ is a generalized graph laplacian of the system weighted by the relevant spring stiffnesses (\cite{Chung1997-dc}).
+\begin{equation}\label{eq:K_general}
+	K_{i,j}= \begin{cases}
+		-1 * \sum k_{i,j} & if i=j \\
+		k_{i,j} & if i
+	\end{cases}
+\end{equation}
+
+The spectrum and eigenmodes of $\bm{K}_0$ are illustrated in \ref{fig:lattice_spectrum}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{Figures/}
+\end{center}
+\caption{}
+\label{fig:lattice_spectrum}
+\end{figure}
+
+
+
+
+
+\begin{figure}
+\begin{center}
+	\includegraphics[width=.5\textwidth]{Figures/}
+\end{center}
+\caption{}
+\label{fig:1D_chain}
+\end{figure}
 
 
 
 \section{Random Spring Networks}
 
-\begin{equation}
-	\text{Harmonic Spring: } \quad F = -k u \quad \left( u\equiv x - x_0\right)
-\end{equation}
-
-
-\begin{equation}
-	\text{Newton's Equation} \quad F = m a = m u_{tt} 
-\end{equation}
-
-\begin{equation}
-	\vec{u}_{tt} = \boldsymbol{A}\vec{u}
-\end{equation}
 
 \begin{equation}
 	\boldsymbol{A}_0 = 
@@ -108,5 +186,9 @@ We define a localization parameter, following Molinari.
 $X$ represents a contribution from random bonds. 
 
 It is symmetric, gaussian random entries, and has 0 on the diagonal.
+
+\bibliography{references}
+\bibliographystyle{plainnat} % Needed for \cite.
+
 
 \end{document}
